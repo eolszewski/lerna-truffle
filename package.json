@@ -1,0 +1,52 @@
+{
+  "name": "@jlegrone/lerna-monorepo-example",
+  "description": "Develop node modules inside a monorepo with lerna and conventional commits.",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlegrone/lerna-monorepo-example.git"
+  },
+  "author": "Jacob LeGrone <dev@jacoblegrone.com> (https://jacoblegrone.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jlegrone/lerna-monorepo-example/issues"
+  },
+  "homepage": "https://github.com/jlegrone/lerna-monorepo-example#readme",
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "commitizen.config.js"
+    }
+  },
+  "scripts": {
+    "bootstrap": "yarn setup && yarn install",
+    "cleanup": "lerna clean --yes",
+    "commit": "git-cz",
+    "commitmsg": "commitlint -e",
+    "learna": "lerna-wizard",
+    "lerna": "lerna",
+    "postinstall": "lerna bootstrap && npm run ugly-ugly-hack",
+    "release": "lerna publish --conventional-commits --message \"chore(npm): publish\"",
+    "setup": "./scripts/setup.sh",
+    "start": "lerna run --parallel start",
+    "start:macos": "cd packages/lerna-example-macos && yarn macos",
+    "start:ios": "cd packages/lerna-example-mobile && yarn ios",
+    "start:web": "cd packages/lerna-example-web && yarn start",
+    "test": "jest --projects packages/* --coverage",
+    "test:watch": "yarn test -- --watch --coverage false",
+    "ugly-ugly-hack": "lerna exec --parallel --bail false --ignore @jlegrone/lerna-example-web -- rm \"./node_modules/@jlegrone/lerna-example-redux-lib/.babelrc\"",
+    "watch": "lerna run --parallel watch"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^3.0.4",
+    "@commitlint/config-angular": "^3.0.4",
+    "commitizen": "^2.9.6",
+    "cz-customizable": "^5.0.0",
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "lerna": "^2.0.0",
+    "lerna-wizard": "^1.0.9"
+  }
+}
